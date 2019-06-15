@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/nbari/compound_duration/tree/master.svg?style=svg)](https://circleci.com/gh/nbari/compound_duration/tree/master)
+
 # compound_duration
 
 Convert seconds to compound duration (week, days, hours, minutes, seconds)
