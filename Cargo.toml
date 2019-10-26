@@ -12,4 +12,7 @@ categories = ["date-and-time"]
 license-file = "LICENSE"
 edition = "2018"
 
+[badges]
+travis-ci = { repository = "nbari/compound_duration", branch = "master" }
+
 [dependencies]
