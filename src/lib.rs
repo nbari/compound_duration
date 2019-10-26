@@ -1,9 +1,22 @@
+//! Convert seconds to compound duration (week, days, hours, minutes, seconds)
+
 pub const SECOND: usize = 1;
 pub const MINUTE: usize = 60;
 pub const HOUR: usize = 3_600;
 pub const DAY: usize = 86_400;
 pub const WEEK: usize = 604_800;
 
+/// Convert seconds to compound duration (days, hours, minutes, seconds)
+///
+/// Example:
+///```
+///use compound_duration::format_dhms;
+///
+///fn main() {
+///    // 69d10h40m
+///    println!("{}", format_dhms(6000000));
+///}
+///```
 pub fn format_dhms(seconds: usize) -> String {
     let mut compound_duration = String::new();
     if seconds <= 0 {
@@ -41,6 +54,17 @@ pub fn format_dhms(seconds: usize) -> String {
     return compound_duration;
 }
 
+/// Convert seconds to compound duration (week, days, hours, minutes, seconds)
+///
+/// Example:
+///```
+///use compound_duration::format_wdhms;
+///
+///fn main() {
+///    // 9w6d10h40m
+///    println!("{}", format_wdhms(6000000));
+///}
+///```
 pub fn format_wdhms(seconds: usize) -> String {
     let mut compound_duration = String::new();
     if seconds <= 0 {

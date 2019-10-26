@@ -1,10 +1,10 @@
 [package]
 name = "compound_duration"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Nicolas Embriz <nbari@tequila.io>"]
 description = "Convert seconds to compound duration (week, days, hours, minutes, seconds)"
-documentation = "https://github.com/nbari/compound_duration/blob/master/README.md"
-homepage = "https://github.com/nbari/compound_duration"
+documentation = "https://docs.rs/compound_duration/latest/compound_duration/"
+homepage = "https://docs.rs/compound_duration/latest/compound_duration/"
 repository = "https://github.com/nbari/compound_duration"
 readme = "README.md"
 keywords = ["time", "format", "duration", "compound", "seconds"]
