@@ -19,7 +19,7 @@ pub const WEEK: usize = 604_800;
 ///```
 pub fn format_dhms(seconds: usize) -> String {
     let mut compound_duration = String::new();
-    if seconds <= 0 {
+    if seconds == 0 {
         compound_duration.push_str("0s");
         return compound_duration;
     }
@@ -51,7 +51,7 @@ pub fn format_dhms(seconds: usize) -> String {
         compound_duration.push_str(format!("{}s", ss).as_str());
     }
 
-    return compound_duration;
+    compound_duration
 }
 
 /// Convert seconds to compound duration (week, days, hours, minutes, seconds)
@@ -67,7 +67,7 @@ pub fn format_dhms(seconds: usize) -> String {
 ///```
 pub fn format_wdhms(seconds: usize) -> String {
     let mut compound_duration = String::new();
-    if seconds <= 0 {
+    if seconds == 0 {
         compound_duration.push_str("0s");
         return compound_duration;
     }
@@ -106,7 +106,7 @@ pub fn format_wdhms(seconds: usize) -> String {
         compound_duration.push_str(format!("{}s", ss).as_str());
     }
 
-    return compound_duration;
+    compound_duration
 }
 
 #[cfg(test)]
@@ -122,8 +122,8 @@ mod tests {
         assert_eq!(format_dhms(86400), "1d");
         assert_eq!(format_dhms(86401), "1d1s");
         assert_eq!(format_dhms(7259), "2h59s");
-        assert_eq!(format_dhms(604800), "7d");
-        assert_eq!(format_dhms(6000000), "69d10h40m");
+        assert_eq!(format_dhms(604_800), "7d");
+        assert_eq!(format_dhms(6_000_000), "69d10h40m");
     }
 
     #[test]
@@ -135,7 +135,7 @@ mod tests {
         assert_eq!(format_wdhms(86400), "1d");
         assert_eq!(format_wdhms(86401), "1d1s");
         assert_eq!(format_wdhms(7259), "2h59s");
-        assert_eq!(format_wdhms(604800), "1w");
-        assert_eq!(format_wdhms(6000000), "9w6d10h40m");
+        assert_eq!(format_wdhms(604_800), "1w");
+        assert_eq!(format_wdhms(6_000_000), "9w6d10h40m");
     }
 }

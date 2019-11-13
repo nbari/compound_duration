@@ -1,6 +1,6 @@
 [package]
 name = "compound_duration"
-version = "1.0.1"
+version = "1.0.2"
 authors = ["Nicolas Embriz <nbari@tequila.io>"]
 description = "Convert seconds to compound duration (week, days, hours, minutes, seconds)"
 documentation = "https://docs.rs/compound_duration/latest/compound_duration/"
