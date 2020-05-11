@@ -25,3 +25,16 @@ fn main() {
     println!("{}", format_dhms(now.elapsed().as_secs() as usize));
 }
 ```
+
+If need nanoseconds use `format_ns`:
+
+```rust
+use compound_duration::format_ns;
+use std::time::Instant;
+
+fn main() {
+    let now = Instant::now();
+    // do something ...
+    println!("{}", format_ns(now.elapsed().as_nanos() as usize));
+}
+```
