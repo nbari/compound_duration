@@ -6,6 +6,13 @@ os:
   - linux
   - osx
 
+before_script:
+  - rustup component add clippy
+
 script:
   - cargo clippy --all-targets --all-features -- -D clippy::pedantic -D clippy::nursery
   - cargo test --all
+
+notifications:
+  email:
+    on_success: never
