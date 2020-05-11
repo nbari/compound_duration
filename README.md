@@ -13,9 +13,9 @@ Convert seconds to compound duration (week, days, hours, minutes, seconds)
 | 4294967295   | 7101w3d6h28m15s |
 
 
-Example:
+`format_dhms` or `format_wdhms`, example:
 
-```rs
+```rust
 use compound_duration::format_dhms;
 use std::time::Instant;
 
