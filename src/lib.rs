@@ -10,13 +10,17 @@ pub const WEEK: usize = 604_800;
 ///
 /// Example:
 ///```
-///use compound_duration::format_dhms;
+/// use compound_duration::format_dhms;
+/// use std::time::Instant;
 ///
-///fn main() {
-///    // 69d10h40m
-///    println!("{}", format_dhms(6000000));
-///}
+/// let now = Instant::now();
+/// // do something ...
+/// println!("{}", format_dhms(now.elapsed().as_secs() as usize));
+///
+/// // 69d10h40m
+/// println!("{}", format_dhms(6000000));
 ///```
+#[must_use]
 pub fn format_dhms(seconds: usize) -> String {
     let mut compound_duration = String::new();
     if seconds == 0 {
@@ -58,13 +62,11 @@ pub fn format_dhms(seconds: usize) -> String {
 ///
 /// Example:
 ///```
-///use compound_duration::format_wdhms;
-///
-///fn main() {
-///    // 9w6d10h40m
-///    println!("{}", format_wdhms(6000000));
-///}
+/// use compound_duration::format_wdhms;
+/// // 9w6d10h40m
+/// println!("{}", format_wdhms(6000000));
 ///```
+#[must_use]
 pub fn format_wdhms(seconds: usize) -> String {
     let mut compound_duration = String::new();
     if seconds == 0 {
@@ -111,7 +113,7 @@ pub fn format_wdhms(seconds: usize) -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use super::{format_dhms, format_wdhms};
 
     #[test]
     fn test_format_dhms() {
@@ -124,6 +126,7 @@ mod tests {
         assert_eq!(format_dhms(7259), "2h59s");
         assert_eq!(format_dhms(604_800), "7d");
         assert_eq!(format_dhms(6_000_000), "69d10h40m");
+        assert_eq!(format_dhms(4_294_967_295), "49710d6h28m15s");
     }
 
     #[test]
@@ -137,5 +140,6 @@ mod tests {
         assert_eq!(format_wdhms(7259), "2h59s");
         assert_eq!(format_wdhms(604_800), "1w");
         assert_eq!(format_wdhms(6_000_000), "9w6d10h40m");
+        assert_eq!(format_wdhms(4_294_967_295), "7101w3d6h28m15s");
     }
 }

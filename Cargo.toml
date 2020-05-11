@@ -1,6 +1,6 @@
 [package]
 name = "compound_duration"
-version = "1.0.2"
+version = "1.0.3"
 authors = ["Nicolas Embriz <nbari@tequila.io>"]
 description = "Convert seconds to compound duration (week, days, hours, minutes, seconds)"
 documentation = "https://docs.rs/compound_duration/latest/compound_duration/"
@@ -14,5 +14,3 @@ edition = "2018"
 
 [badges]
 travis-ci = { repository = "nbari/compound_duration", branch = "master" }
-
-[dependencies]

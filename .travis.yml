@@ -1,12 +1,11 @@
 language: rust
 rust:
   - stable
-  - beta
 
 os:
   - linux
   - osx
 
 script:
-  - cargo build --all --all-targets
+  - cargo clippy --all-targets --all-features -- -D clippy::pedantic -D clippy::nursery
   - cargo test --all
