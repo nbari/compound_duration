@@ -22,7 +22,7 @@ use std::time::Instant;
 fn main() {
     let now = Instant::now();
     // do something ...
-    println!("{}", format_dhms(now.elapsed().as_secs() as usize));
+    println!("{}", format_dhms(now.elapsed().as_secs()));
 }
 ```
 
@@ -35,6 +35,6 @@ use std::time::Instant;
 fn main() {
     let now = Instant::now();
     // do something ...
-    println!("{}", format_ns(now.elapsed().as_nanos() as usize));
+    println!("{}", format_ns(now.elapsed().as_nanos()));
 }
 ```
