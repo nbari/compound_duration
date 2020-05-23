@@ -1,5 +1,9 @@
 //! Convert seconds to compound duration (week, days, hours, minutes, seconds)
 
+use std::convert::{TryFrom, TryInto};
+use std::fmt::Debug;
+use std::ops::BitAnd;
+
 pub const NS: usize = 1;
 pub const US: usize = 1_000;
 pub const MS: usize = 1_000_000;
@@ -25,7 +29,18 @@ pub const WEEK: usize = 604_800;
 /// println!("{}", format_dhms(6000000));
 ///```
 #[must_use]
-pub fn format_dhms(seconds: usize) -> String {
+pub fn format_dhms<T: TryInto<usize> + TryFrom<usize> + BitAnd<Output = T>>(seconds: T) -> String
+where
+    <T as TryFrom<usize>>::Error: Debug,
+    <T as TryInto<usize>>::Error: Debug,
+{
+    let seconds: usize = if std::mem::size_of::<T>() <= std::mem::size_of::<usize>() {
+        seconds.try_into().unwrap()
+    } else {
+        (seconds & usize::MAX.try_into().unwrap())
+            .try_into()
+            .unwrap()
+    };
     let mut compound_duration = String::new();
     if seconds == 0 {
         compound_duration.push_str("0s");
@@ -70,7 +85,18 @@ pub fn format_dhms(seconds: usize) -> String {
 /// println!("{}", format_wdhms(6000000));
 ///```
 #[must_use]
-pub fn format_wdhms(seconds: usize) -> String {
+pub fn format_wdhms<T: TryInto<usize> + TryFrom<usize> + BitAnd<Output = T>>(seconds: T) -> String
+where
+    <T as TryFrom<usize>>::Error: Debug,
+    <T as TryInto<usize>>::Error: Debug,
+{
+    let seconds: usize = if std::mem::size_of::<T>() <= std::mem::size_of::<usize>() {
+        seconds.try_into().unwrap()
+    } else {
+        (seconds & usize::MAX.try_into().unwrap())
+            .try_into()
+            .unwrap()
+    };
     let mut compound_duration = String::new();
     if seconds == 0 {
         compound_duration.push_str("0s");
@@ -124,7 +150,16 @@ pub fn format_wdhms(seconds: usize) -> String {
 /// println!("{}", format_ns(now.elapsed().as_nanos() as usize));
 ///```
 #[must_use]
-pub fn format_ns(nanos: usize) -> String {
+pub fn format_ns<T: TryInto<usize> + TryFrom<usize> + BitAnd<Output = T>>(nanos: T) -> String
+where
+    <T as TryFrom<usize>>::Error: Debug,
+    <T as TryInto<usize>>::Error: Debug,
+{
+    let nanos: usize = if std::mem::size_of::<T>() <= std::mem::size_of::<usize>() {
+        nanos.try_into().unwrap()
+    } else {
+        (nanos & usize::MAX.try_into().unwrap()).try_into().unwrap()
+    };
     let mut compound_duration = String::new();
     if nanos == 0 {
         compound_duration.push_str("0ns");
@@ -196,7 +231,7 @@ mod tests {
         assert_eq!(format_dhms(7259), "2h59s");
         assert_eq!(format_dhms(604_800), "7d");
         assert_eq!(format_dhms(6_000_000), "69d10h40m");
-        assert_eq!(format_dhms(4_294_967_295), "49710d6h28m15s");
+        assert_eq!(format_dhms(4_294_967_295_usize), "49710d6h28m15s");
     }
 
     #[test]
@@ -210,34 +245,37 @@ mod tests {
         assert_eq!(format_wdhms(7259), "2h59s");
         assert_eq!(format_wdhms(604_800), "1w");
         assert_eq!(format_wdhms(6_000_000), "9w6d10h40m");
-        assert_eq!(format_wdhms(4_294_967_295), "7101w3d6h28m15s");
+        assert_eq!(format_wdhms(4_294_967_295_usize), "7101w3d6h28m15s");
     }
 
     #[test]
     fn test_format_ns() {
-        assert_eq!(format_ns(3_000_129_723), "3s129\u{b5}s723ns");
-        assert_eq!(format_ns(100_000_000_000_000_000), "1157d9h46m40s");
-        assert_eq!(format_ns(100_000_000_000_000_001), "1157d9h46m40s1ns");
+        assert_eq!(format_ns(3_000_129_723_usize), "3s129\u{b5}s723ns");
+        assert_eq!(format_ns(100_000_000_000_000_000_usize), "1157d9h46m40s");
+        assert_eq!(format_ns(100_000_000_000_000_001_usize), "1157d9h46m40s1ns");
         assert_eq!(
-            format_ns(100_000_000_000_001_001),
+            format_ns(100_000_000_000_001_001_usize),
             "1157d9h46m40s1\u{b5}s1ns"
         );
         assert_eq!(
-            format_ns(100_000_000_000_100_001),
+            format_ns(100_000_000_000_100_001_usize),
             "1157d9h46m40s100\u{b5}s1ns"
         );
         assert_eq!(
-            format_ns(100_000_000_010_100_001),
+            format_ns(100_000_000_010_100_001_usize),
             "1157d9h46m40s10ms100\u{b5}s1ns"
         );
-        assert_eq!(format_ns(100_000_000_010_000_001), "1157d9h46m40s10ms1ns");
-        assert_eq!(format_ns(10_000_000_000_000_000), "115d17h46m40s");
-        assert_eq!(format_ns(1_000_000_000_000_000), "11d13h46m40s");
-        assert_eq!(format_ns(100_000_000_000_000), "1d3h46m40s");
-        assert_eq!(format_ns(10_000_000_000_000), "2h46m40s");
-        assert_eq!(format_ns(1_000_000_000_000), "16m40s");
-        assert_eq!(format_ns(100_000_000_000), "1m40s");
-        assert_eq!(format_ns(100_000_000_010), "1m40s10ns");
+        assert_eq!(
+            format_ns(100_000_000_010_000_001_usize),
+            "1157d9h46m40s10ms1ns"
+        );
+        assert_eq!(format_ns(10_000_000_000_000_000_usize), "115d17h46m40s");
+        assert_eq!(format_ns(1_000_000_000_000_000_usize), "11d13h46m40s");
+        assert_eq!(format_ns(100_000_000_000_000_usize), "1d3h46m40s");
+        assert_eq!(format_ns(10_000_000_000_000_usize), "2h46m40s");
+        assert_eq!(format_ns(1_000_000_000_000_usize), "16m40s");
+        assert_eq!(format_ns(100_000_000_000_usize), "1m40s");
+        assert_eq!(format_ns(100_000_000_010_usize), "1m40s10ns");
         assert_eq!(format_ns(1_000_000_000), "1s");
         assert_eq!(format_ns(100_000_000), "100ms");
         assert_eq!(format_ns(10_000_000), "10ms");
