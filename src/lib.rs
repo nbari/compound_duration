@@ -51,26 +51,26 @@ where
     let ds = seconds / DAY;
     // days
     if ds != 0 {
-        compound_duration.push_str(format!("{}d", ds).as_str());
+        compound_duration.push_str(format!("{ds}d").as_str());
     }
 
     // hours
     let hs = sec / HOUR;
     sec %= HOUR;
     if hs != 0 {
-        compound_duration.push_str(format!("{}h", hs).as_str());
+        compound_duration.push_str(format!("{hs}h").as_str());
     }
 
     // minutes
     let ms = sec / MINUTE;
     sec %= MINUTE;
     if ms != 0 {
-        compound_duration.push_str(format!("{}m", ms).as_str());
+        compound_duration.push_str(format!("{ms}m").as_str());
     }
 
     // seconds
     if sec != 0 {
-        compound_duration.push_str(format!("{}s", sec).as_str());
+        compound_duration.push_str(format!("{sec}s").as_str());
     }
 
     compound_duration
@@ -107,33 +107,33 @@ where
     // weeks
     let ws = seconds / WEEK;
     if ws != 0 {
-        compound_duration.push_str(format!("{}w", ws).as_str());
+        compound_duration.push_str(format!("{ws}w").as_str());
     }
 
     // days
     let ds = sec / DAY;
     sec %= DAY;
     if ds != 0 {
-        compound_duration.push_str(format!("{}d", ds).as_str());
+        compound_duration.push_str(format!("{ds}d").as_str());
     }
 
     // hours
     let hs = sec / HOUR;
     sec %= HOUR;
     if hs != 0 {
-        compound_duration.push_str(format!("{}h", hs).as_str());
+        compound_duration.push_str(format!("{hs}h").as_str());
     }
 
     // minutes
     let ms = sec / MINUTE;
     sec %= MINUTE;
     if ms != 0 {
-        compound_duration.push_str(format!("{}m", ms).as_str());
+        compound_duration.push_str(format!("{ms}m").as_str());
     }
 
     // seconds
     if sec != 0 {
-        compound_duration.push_str(format!("{}s", sec).as_str());
+        compound_duration.push_str(format!("{sec}s").as_str());
     }
 
     compound_duration
@@ -170,47 +170,47 @@ where
     let d_ns = nanos / (DAY * NANOS);
     // days
     if d_ns != 0 {
-        compound_duration.push_str(format!("{}d", d_ns).as_str());
+        compound_duration.push_str(format!("{d_ns}d").as_str());
     }
 
     // hours
     let h_ns = ns / (HOUR * NANOS);
     ns %= HOUR * NANOS;
     if h_ns != 0 {
-        compound_duration.push_str(format!("{}h", h_ns).as_str());
+        compound_duration.push_str(format!("{h_ns}h").as_str());
     }
 
     // minutes
     let minutes_ns = ns / (MINUTE * NANOS);
     ns %= MINUTE * NANOS;
     if minutes_ns != 0 {
-        compound_duration.push_str(format!("{}m", minutes_ns).as_str());
+        compound_duration.push_str(format!("{minutes_ns}m").as_str());
     }
 
     // seconds
     let sec_ns = ns / (SECOND * NANOS);
     ns %= SECOND * NANOS;
     if sec_ns != 0 {
-        compound_duration.push_str(format!("{}s", sec_ns).as_str());
+        compound_duration.push_str(format!("{sec_ns}s").as_str());
     }
 
     // milliseconds
     let ms_ns = ns / MS;
     ns %= MS;
     if ms_ns != 0 {
-        compound_duration.push_str(format!("{}ms", ms_ns).as_str());
+        compound_duration.push_str(format!("{ms_ns}ms").as_str());
     }
 
     // microseconds
     let micro_ns = ns / US;
     ns %= US;
     if micro_ns != 0 {
-        compound_duration.push_str(format!("{}\u{b5}s", micro_ns).as_str());
+        compound_duration.push_str(format!("{micro_ns}\u{b5}s").as_str());
     }
 
     // nanoseconds
     if ns != 0 {
-        compound_duration.push_str(format!("{}ns", ns).as_str());
+        compound_duration.push_str(format!("{ns}ns").as_str());
     }
 
     compound_duration
