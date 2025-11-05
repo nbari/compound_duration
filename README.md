@@ -75,6 +75,71 @@ let duration = Duration::from_secs(3661);
 println!("{}", format_dhms(duration.as_secs())); // "1h1m1s"
 ```
 
+### Using Time Constants
+
+```rust
+use compound_duration::{format_dhms, DAY, HOUR, MINUTE};
+
+// Calculate duration programmatically
+let uptime = 2 * DAY + 3 * HOUR + 45 * MINUTE + 30;
+println!("Server uptime: {}", format_dhms(uptime)); // "2d3h45m30s"
+
+// Using constants for clarity
+let backup_interval = 7 * DAY;
+println!("Backup every: {}", format_dhms(backup_interval)); // "7d"
+```
+
+### Real-World Examples
+
+```rust
+use compound_duration::{format_dhms, format_wdhms, format_ns};
+use std::time::{Duration, Instant};
+
+// 1. HTTP Request Timeout
+let timeout = Duration::from_secs(30);
+println!("Timeout: {}", format_dhms(timeout.as_secs())); // "30s"
+
+// 2. Cache Expiry
+let cache_ttl = 3600;
+println!("Cache TTL: {}", format_dhms(cache_ttl)); // "1h"
+
+// 3. Session Duration
+let session = 24 * 3600;
+println!("Session expires in: {}", format_dhms(session)); // "1d"
+
+// 4. Benchmark Results
+let start = Instant::now();
+// ... expensive operation ...
+let elapsed = start.elapsed();
+println!("Operation took: {}", format_ns(elapsed.as_nanos()));
+
+// 5. Uptime Display
+let uptime_seconds = 1_234_567;
+println!("System uptime: {}", format_wdhms(uptime_seconds)); // "2w14h56m7s"
+
+// 6. Rate Limiting
+let rate_window = 60;
+println!("Rate limit window: {}", format_dhms(rate_window)); // "1m"
+```
+
+### Different Input Types
+
+```rust
+use compound_duration::format_dhms;
+
+// Works with various integer types
+let seconds_u32: u32 = 3600;
+let seconds_u64: u64 = 7200;
+let seconds_i32: i32 = 1800;
+let seconds_usize: usize = 900;
+
+println!("{}", format_dhms(seconds_u32));   // "1h"
+println!("{}", format_dhms(seconds_u64));   // "2h"
+println!("{}", format_dhms(seconds_i32));   // "30m"
+println!("{}", format_dhms(seconds_usize)); // "15m"
+```
+
+
 ## API Reference
 
 ### `format_dhms`
@@ -178,11 +243,3 @@ format_dhms(duration.as_secs());
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-BSD-3-Clause - See [LICENSE](LICENSE) file for details.
-
-## Author
-
-Nicolas Embriz ([@nbari](https://github.com/nbari))
