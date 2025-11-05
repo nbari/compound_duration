@@ -1,0 +1,8 @@
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+unused_must_use = "deny"
+
+[lints.clippy]
+pedantic = "warn"
+cargo = "warn"

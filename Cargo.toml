@@ -2,12 +2,17 @@
 name = "compound_duration"
 version = "2.0.0"
 authors = ["Nicolas Embriz <nbari@tequila.io>"]
+edition = "2021"
+rust-version = "1.56"
 description = "Convert seconds to compound duration (week, days, hours, minutes, seconds)"
-documentation = "https://docs.rs/compound_duration/latest/compound_duration/"
-homepage = "https://docs.rs/compound_duration/latest/compound_duration/"
+documentation = "https://docs.rs/compound_duration"
+homepage = "https://github.com/nbari/compound_duration"
 repository = "https://github.com/nbari/compound_duration"
 readme = "README.md"
 keywords = ["time", "format", "duration", "compound", "seconds"]
-categories = ["date-and-time"]
+categories = ["date-and-time", "no-std"]
 license = "BSD-3-Clause"
-edition = "2024"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
