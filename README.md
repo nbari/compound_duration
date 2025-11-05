@@ -4,7 +4,7 @@
 [![Documentation](https://docs.rs/compound_duration/badge.svg)](https://docs.rs/compound_duration)
 [![CI](https://github.com/nbari/compound_duration/workflows/CI/badge.svg)](https://github.com/nbari/compound_duration/actions)
 [![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](LICENSE)
-[![Rust](https://img.shields.io/badge/rust-1.56%2B-blue.svg?maxAge=3600)](https://www.rust-lang.org/)
+[![Rust](https://img.shields.io/badge/rust-2024%20edition-blue.svg?maxAge=3600)](https://www.rust-lang.org/)
 
 Convert seconds/nanoseconds to human-readable compound duration format.
 
@@ -159,10 +159,9 @@ pub const WEEK: u64 = 604_800;
 
 Version 2.0 introduces breaking changes to fix critical issues on 32-bit architectures:
 
+- Updated to Rust 2024 edition (latest, won't be deprecated soon)
 - All internal constants changed from `usize` to `u64`
 - Function signatures changed to use generic `TryInto<u64>` instead of complex trait bounds
-- Minimum Supported Rust Version (MSRV): 1.56+
-- Updated to Rust 2021 edition
 
 ### Migration Guide
 
@@ -183,3 +182,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## License
 
 BSD-3-Clause - See [LICENSE](LICENSE) file for details.
+
+## Author
+
+Nicolas Embriz ([@nbari](https://github.com/nbari))

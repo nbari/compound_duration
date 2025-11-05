@@ -226,7 +226,7 @@ where
 
 #[cfg(test)]
 mod tests {
-    use super::{format_dhms, format_ns, format_wdhms, DAY, HOUR, MINUTE, NANOS, WEEK};
+    use super::{DAY, HOUR, MINUTE, NANOS, WEEK, format_dhms, format_ns, format_wdhms};
 
     // ========================================================================
     // Basic functionality tests

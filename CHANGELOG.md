@@ -10,8 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Breaking Changes
 - Changed all internal constants from `usize` to `u64` to fix arithmetic overflow on 32-bit architectures
 - Simplified function signatures to use `TryInto<u64>` trait bounds
-- Updated to Rust 2021 edition
-- Set MSRV to 1.56
+- Updated to Rust 2024 edition (requires recent Rust compiler)
 
 ### Added
 - Comprehensive CI/CD workflows (CI, Release, Security Audit)
