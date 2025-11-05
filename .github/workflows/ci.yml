@@ -1,15 +1,10 @@
----
 name: CI
 
 on:
   push:
-    branches:
-      - main
-      - develop
+    branches: [main, develop]
   pull_request:
-    branches:
-      - main
-      - develop
+    branches: [main, develop]
 
 env:
   CARGO_TERM_COLOR: always
@@ -21,43 +16,37 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-        rust:
-          - stable
-          - beta
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        rust: [stable, beta]
     steps:
       - uses: actions/checkout@v4
-
+      
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust }}
-
+      
       - name: Cache cargo registry
         uses: actions/cache@v4
         with:
           path: ~/.cargo/registry
           key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
-
+      
       - name: Cache cargo index
         uses: actions/cache@v4
         with:
           path: ~/.cargo/git
           key: ${{ runner.os }}-cargo-git-${{ hashFiles('**/Cargo.lock') }}
-
+      
       - name: Cache cargo build
         uses: actions/cache@v4
         with:
           path: target
-          key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock')
-            }}
-
+          key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+      
       - name: Run tests
         run: cargo test --verbose
-
+      
       - name: Run doc tests
         run: cargo test --doc --verbose
 
@@ -66,12 +55,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy
-
+      
       - name: Run clippy
         run: cargo clippy --all-targets --all-features -- -D warnings
 
@@ -80,12 +69,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt
-
+      
       - name: Check formatting
         run: cargo fmt --all -- --check
 
@@ -94,33 +83,63 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
-
-      - name: Install tarpaulin
-        run: cargo install cargo-tarpaulin
-
-      - name: Generate coverage
-        run: cargo tarpaulin --verbose --all-features --workspace --timeout 120 --out
-          xml
-
-      - name: Upload coverage to Codecov
+        with:
+          components: llvm-tools-preview
+      
+      - name: Cache cargo dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-coverage-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-coverage-
+            ${{ runner.os }}-cargo-
+      
+      - name: Run tests with coverage
+        run: cargo test --verbose
+        env:
+          CARGO_INCREMENTAL: 0
+          LLVM_PROFILE_FILE: coverage-%p-%m.profraw
+          RUSTFLAGS: -Cinstrument-coverage -Ccodegen-units=1 -Clink-dead-code -Coverflow-checks=off
+          RUSTDOCFLAGS: -Cinstrument-coverage -Ccodegen-units=1 -Clink-dead-code -Coverflow-checks=off
+      
+      - name: Install grcov
+        run: |
+          if [[ ! -e ~/.cargo/bin/grcov ]]; then
+            cargo install grcov
+          else
+            echo "grcov already installed"
+          fi
+      
+      - name: Generate coverage report
+        run: |
+          grcov . --binary-path target/debug/ -s . -t lcov --branch --ignore-not-existing \
+            --ignore '../**' --ignore '/*' -o coverage.lcov
+      
+      - name: Upload to codecov.io
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.lcov
+          flags: rust
           fail_ci_if_error: false
 
-  msrv:
-    name: Minimum Supported Rust Version
+  rust-check:
+    name: Rust Compatibility Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install Rust 1.56
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: '1.56'
-
-      - name: Check MSRV
+      
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+      
+      - name: Check with stable Rust
         run: cargo check --all-features

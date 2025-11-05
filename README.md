@@ -3,6 +3,7 @@
 [![Crates.io](https://img.shields.io/crates/v/compound_duration.svg)](https://crates.io/crates/compound_duration)
 [![Documentation](https://docs.rs/compound_duration/badge.svg)](https://docs.rs/compound_duration)
 [![CI](https://github.com/nbari/compound_duration/workflows/CI/badge.svg)](https://github.com/nbari/compound_duration/actions)
+[![codecov](https://codecov.io/github/nbari/compound_duration/graph/badge.svg?token=YN9AP5OOLB)](https://codecov.io/github/nbari/compound_duration)
 [![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](LICENSE)
 [![Rust](https://img.shields.io/badge/rust-2024%20edition-blue.svg?maxAge=3600)](https://www.rust-lang.org/)
 
